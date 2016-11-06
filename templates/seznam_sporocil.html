@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Seznam sporocil{% endblock title %}
+
+{% block vsebina %}
+
+        <img src="http://jamaicaexquisitetours.com/product_images/uploaded_images/wide-hotel.jpg">
+        <h2>Seznam sporocil</h2>
+
+        {% for sporocilo in seznam %}
+            <p><a href="/sporocilo/{{ sporocilo.key.id() }}">{{ sporocilo.ime }}, {{ sporocilo.priimek }},
+                {{ sporocilo.email }}, {{ sporocilo.sporocilo }}, {{ sporocilo.key.id() }}, {{ sporocilo.datum }}</a></p>
+        {% endfor %}
+
+{% endblock vsebina %}

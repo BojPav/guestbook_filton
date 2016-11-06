@@ -1,0 +1,10 @@
+body {
+    background-color: #f7eded;
+    text-align: center;
+}
+
+.input-group {
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Seznam sporocil{% endblock title %}
+
+{% block vsebina %}
+
+        <h1>Podatki sporocila</h1>
+
+        <p>ID sporocila: {{ sporocilo.key.id() }}</p>
+        <p>Ime: {{ sporocilo.ime }}</p>
+        <p>Priimek: {{ sporocilo.priimek }}</p>
+        <p>E-mail: {{ sporocilo.email }}</p>
+        <p>Datum sporocila: {{ sporocilo.datum }}</p>
+        <p>Sporocilo: {{ sporocilo.sporocilo }}</p>
+
+{% endblock vsebina %}
