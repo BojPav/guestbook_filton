@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Uredi sporocilo{% endblock title %}
+
+{% block vsebina %}
+
+    <form action="/sporocilo/{{ sporocilo.key.id() }}/uredi" method="post">
+            <input name="vnos" value="{{ sporocilo.sporocilo }}">
+
+            <button class="btn btn-info" type="submit">Ok</button>
+    </form>
+
+{% endblock vsebina %}

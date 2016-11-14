@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Posamezno sporocilo{% endblock title %}
+{% block title %}Izbrisi sporocilo{% endblock title %}
 
 {% block vsebina %}
 
-        <h1>Podatki sporocila</h1>
-
+        <h1>Zelite izbrisati to sporocilo ?!</h1>
         <p><strong>ID sporocila:</strong> {{ sporocilo.key.id() }}</p>
         <p><strong>Ime:</strong> {{ sporocilo.ime }}</p>
         <p><strong>Priimek:</strong> {{ sporocilo.priimek }}</p>
         <p><strong>E-mail:</strong> {{ sporocilo.email }}</p>
         <p><strong>Datum sporocila:</strong> {{ sporocilo.datum }}</p>
         <p><strong>Sporocilo:</strong> {{ sporocilo.sporocilo }}</p>
-        <a class="btn btn-info" href="/sporocilo/{{ sporocilo.key.id() }}/uredi">Uredi</a>
-        <a class="btn btn-danger" href="/sporocilo/{{ sporocilo.key.id() }}/izbrisi">Izbrisi</a>
+        <form action="/sporocilo/{{ sporocilo.key.id() }}/izbrisi" method="post">
+                <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
 
 {% endblock vsebina %}

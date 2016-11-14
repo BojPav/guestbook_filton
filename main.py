@@ -3,6 +3,7 @@ import os
 import jinja2
 import webapp2
 from models import Guestbook
+import cgi
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=False)
@@ -38,7 +39,9 @@ class RezutatHandler(BaseHandler):
         priimek = self.request.get("priimek")
         email = self.request.get("email")
         sporocilo = self.request.get("sporocilo")
-        #datum = self.request.get("nastanek")   # datume generira avtomaticno
+        #   datum = self.request.get("nastanek")   # datume generira avtomaticno
+
+        sporocilo = cgi.escape(sporocilo)  # escaping javascript injection !!!
 
         guestbook = Guestbook(ime=ime, priimek=priimek, email=email, sporocilo=sporocilo)
         guestbook.put()
@@ -60,9 +63,36 @@ class PosameznoSporociloHandler(BaseHandler):
         return self.render_template("posamezno_sporocilo.html", params=params)
 
 
+class UrediSporociloHandler(BaseHandler):
+    def get(self, sporocilo_id):
+        sporocilo = Guestbook.get_by_id(int(sporocilo_id))
+        params = {"sporocilo": sporocilo}
+        return self.render_template("uredi_sporocilo.html", params=params)
+
+    def post(self, sporocilo_id):
+        vnos = self.request.get("vnos")
+        sporocilo = Guestbook.get_by_id(int(sporocilo_id))
+        sporocilo.sporocilo = vnos
+        sporocilo.put()
+        return self.redirect_to("seznam-sporocil")
+
+
+class IzbrisiSporociloHandler(BaseHandler):
+    def get(self, sporocilo_id):
+        sporocilo = Guestbook.get_by_id(int(sporocilo_id))
+        params = {"sporocilo": sporocilo}
+        return self.render_template("izbrisi_sporocilo.html", params=params)
+
+    def post(self, sporocilo_id):
+        sporocilo = Guestbook.get_by_id(int(sporocilo_id))
+        sporocilo.key.delete()
+        return self.redirect_to("seznam-sporocil")
+
 app = webapp2.WSGIApplication([
     webapp2.Route('/', MainHandler),
     webapp2.Route('/rezultat', RezutatHandler),
-    webapp2.Route('/seznam-sporocil', SeznamSporocilHandler),
+    webapp2.Route('/seznam-sporocil', SeznamSporocilHandler, name="seznam-sporocil"),
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>', PosameznoSporociloHandler),
+    webapp2.Route('/sporocilo/<sporocilo_id:\d+>/uredi', UrediSporociloHandler),
+    webapp2.Route('/sporocilo/<sporocilo_id:\d+>/izbrisi', IzbrisiSporociloHandler),
 ], debug=True)
