@@ -4,6 +4,8 @@ import jinja2
 import webapp2
 from models import Guestbook
 import cgi
+from models import Uporabnik
+from google.appengine.api import users
 
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir), autoescape=False)
@@ -30,7 +32,26 @@ class BaseHandler(webapp2.RequestHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        return self.render_template("hello.html")
+        user = users.get_current_user()
+
+        if user:
+            logiran = True
+            logout_url = users.create_logout_url('/')
+
+            params = {"logiran": logiran, "logout_url": logout_url, "user": user}
+        else:
+            logiran = False
+            login_url = users.create_login_url('/')
+
+            params = {"logiran": logiran, "login_url": login_url, "user": user}
+        return self.render_template("hello.html", params)
+
+    def post(self):     # shranjevanje user emaila v sporocilo model
+        user_email = user.email()
+        save_user_email = Guestbook(sporocilo=user_email)
+        save_user_email.put()
+
+        return self.render_template("hello.html", params)
 
 
 class RezutatHandler(BaseHandler):
@@ -41,7 +62,7 @@ class RezutatHandler(BaseHandler):
         sporocilo = self.request.get("sporocilo")
         #   datum = self.request.get("nastanek")   # datume generira avtomaticno
 
-        sporocilo = cgi.escape(sporocilo)  # escaping javascript injection !!!
+        sporocilo = cgi.escape(sporocilo)  # prepreci javascript injection
 
         guestbook = Guestbook(ime=ime, priimek=priimek, email=email, sporocilo=sporocilo)
         guestbook.put()
@@ -88,11 +109,32 @@ class IzbrisiSporociloHandler(BaseHandler):
         sporocilo.key.delete()
         return self.redirect_to("seznam-sporocil")
 
+
+class RegistracijaHandler(BaseHandler):
+    def get(self):
+        return self.render_template("registracija.html")
+
+    def post(self):
+        ime = self.request.get("ime")
+        priimek = self.request.get("priimek")
+        email = self.request.get("email")
+        geslo = self.request.get("geslo")
+
+        if "@" in email:
+            novi_uporabnik = Uporabnik(ime=ime, priimek=priimek, email=email, geslo=geslo)
+            novi_uporabnik.put()
+        else:
+            return self.write("Niste vpisali svoj email...")
+
+        return self.redirect_to("main")
+
+
 app = webapp2.WSGIApplication([
-    webapp2.Route('/', MainHandler),
+    webapp2.Route('/', MainHandler, name="main"),
     webapp2.Route('/rezultat', RezutatHandler),
     webapp2.Route('/seznam-sporocil', SeznamSporocilHandler, name="seznam-sporocil"),
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>', PosameznoSporociloHandler),
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>/uredi', UrediSporociloHandler),
     webapp2.Route('/sporocilo/<sporocilo_id:\d+>/izbrisi', IzbrisiSporociloHandler),
+    webapp2.Route('/registracija', RegistracijaHandler),
 ], debug=True)

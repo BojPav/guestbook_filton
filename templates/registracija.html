@@ -1,18 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock title %}
+{% block title %}Registracia uporabnika{% endblock title %}
 
 {% block vsebina %}
 
-{% if logiran %}
+    <h2>Registracija novega uporabnika</h2>
 
-    <h3>Hello, {{ user.nickname() }}!</h3>
-    <p><a href="{{ logout_url }}">Logout</a></p>
-    <img src="http://jamaicaexquisitetours.com/product_images/uploaded_images/wide-hotel.jpg">
-
-    <h3>Vnesite svoje podatke v input polja ter Vase sporocilo:</h3>
-
-    <form action="/rezultat" method="post">
+    <form action="/registracija" method="post">
         <div class="input-group">
             <span class="input-group-addon">Ime:</span>
             <input type="text" class="form-control" aria-describedby="basic-addon1" name="ime">
@@ -29,18 +23,11 @@
         </div>
         <br/>
         <div class="input-group">
-            <span class="input-group-addon">Sporocilo:</span>
-            <input type="text" class="form-control" aria-describedby="basic-addon1" name="sporocilo">
+            <span class="input-group-addon">Geslo:</span>
+            <input type="text" class="form-control" aria-describedby="basic-addon1" name="geslo">
         </div>
         <br/>
-            <button type="submit" class="btn btn-info">Potrdi</button>
+            <button type="submit" class="btn btn-info">Registriraj se</button>
     </form>
 
-{% else %}
-
-        <h3>Hello stranger!</h3>
-
-        <p>Prosim prijavi se: <a href="{{ login_url }}">Login</a></p>
-
-{% endif %}
 {% endblock vsebina %}

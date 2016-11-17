@@ -7,3 +7,9 @@ class Guestbook(ndb.Model):
     email = ndb.StringProperty()
     sporocilo = ndb.StringProperty()
     datum = ndb.DateTimeProperty(auto_now_add=True)
+
+class Uporabnik(ndb.Model):
+    ime = ndb.StringProperty()
+    priimek = ndb.StringProperty()
+    email = ndb.StringProperty()
+    geslo = ndb.StringProperty()
