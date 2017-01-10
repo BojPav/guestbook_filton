@@ -67,7 +67,7 @@ class RezutatHandler(BaseHandler):
         guestbook = Guestbook(ime=ime, priimek=priimek, email=email, sporocilo=sporocilo)
         guestbook.put()
 
-        return self.write("Vspesno ste vpisali sporocilo v bazu...")
+        return self.write("You have successfully added your message...click back on your browser.")
 
 
 class SeznamSporocilHandler(BaseHandler):

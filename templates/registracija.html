@@ -1,19 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}Registracia uporabnika{% endblock title %}
+{% block title %}Registration{% endblock title %}
 
 {% block vsebina %}
 
-    <h2>Registracija novega uporabnika</h2>
+    <h2>Registration of new user</h2>
 
     <form action="/registracija" method="post">
         <div class="input-group">
-            <span class="input-group-addon">Ime:</span>
+            <span class="input-group-addon">Name:</span>
             <input type="text" class="form-control" aria-describedby="basic-addon1" name="ime">
         </div>
         <br/>
         <div class="input-group">
-            <span class="input-group-addon">Priimek:</span>
+            <span class="input-group-addon">Surname:</span>
             <input type="text" class="form-control" aria-describedby="basic-addon1" name="priimek">
         </div>
         <br/>
@@ -23,11 +23,11 @@
         </div>
         <br/>
         <div class="input-group">
-            <span class="input-group-addon">Geslo:</span>
+            <span class="input-group-addon">Password:</span>
             <input type="text" class="form-control" aria-describedby="basic-addon1" name="geslo">
         </div>
         <br/>
-            <button type="submit" class="btn btn-info">Registriraj se</button>
+            <button type="submit" class="btn btn-info">Register</button>
     </form>
 
 {% endblock vsebina %}

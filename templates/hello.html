@@ -10,16 +10,16 @@
     <p><a href="{{ logout_url }}">Logout</a></p>
     <img src="http://jamaicaexquisitetours.com/product_images/uploaded_images/wide-hotel.jpg">
 
-    <h3>Vnesite svoje podatke v input polja ter Vase sporocilo:</h3>
+    <h3>Enter your data in the input fields and Your message:</h3>
 
     <form action="/rezultat" method="post">
         <div class="input-group">
-            <span class="input-group-addon">Ime:</span>
+            <span class="input-group-addon">Name:</span>
             <input type="text" class="form-control" aria-describedby="basic-addon1" name="ime">
         </div>
         <br/>
         <div class="input-group">
-            <span class="input-group-addon">Priimek:</span>
+            <span class="input-group-addon">Surname:</span>
             <input type="text" class="form-control" aria-describedby="basic-addon1" name="priimek">
         </div>
         <br/>
@@ -29,18 +29,18 @@
         </div>
         <br/>
         <div class="input-group">
-            <span class="input-group-addon">Sporocilo:</span>
+            <span class="input-group-addon">Message:</span>
             <input type="text" class="form-control" aria-describedby="basic-addon1" name="sporocilo">
         </div>
         <br/>
-            <button type="submit" class="btn btn-info">Potrdi</button>
+            <button type="submit" class="btn btn-info">Send</button>
     </form>
 
 {% else %}
 
-        <h3>Hello stranger!</h3>
+        <h3>Hello unknown!</h3>
 
-        <p>Prosim prijavi se: <a href="{{ login_url }}">Login</a></p>
+        <p>Please Login with GMail account: <a href="{{ login_url }}">Login</a></p>
 
 {% endif %}
 {% endblock vsebina %}
